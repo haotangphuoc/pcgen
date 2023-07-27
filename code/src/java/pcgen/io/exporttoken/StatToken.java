@@ -32,6 +32,7 @@ import pcgen.core.PlayerCharacter;
 import pcgen.core.SettingsHandler;
 import pcgen.core.analysis.StatAnalysis;
 import pcgen.io.ExportHandler;
+import pcgen.io.exporttokenDTO.StatTokenDTO;
 import pcgen.util.Delta;
 import pcgen.util.Logging;
 
@@ -172,7 +173,8 @@ public class StatToken extends Token
 			}
 			else
 			{
-				retString = getModToken(pc, stat, useTemp, useEquip, usePost, useLevel, aLevel);
+				StatTokenDTO statTokenDTO = new StatTokenDTO(pc, stat, useTemp, useEquip, usePost, useLevel, aLevel);
+				retString = getModToken(statTokenDTO);
 			}
 		}
 		else
@@ -183,22 +185,29 @@ public class StatToken extends Token
 			}
 			else
 			{
-				retString = getStatToken(pc, stat, useTemp, useEquip, usePost, useLevel, aLevel);
+				StatTokenDTO statTokenDTO = new StatTokenDTO(pc, stat, useTemp, useEquip, usePost, useLevel, aLevel);
+				retString = getStatToken(statTokenDTO);
 			}
 		}
 
 		return retString;
 	}
 
-	private static String getStatToken(PlayerCharacter pc, PCStat stat, boolean useTemp, boolean useEquip,
-	                                   boolean usePost, boolean useLevel, int aLevel)
+	private static String getStatToken(StatTokenDTO tokenDTO)
 	{
-		return getStatToken(pc, stat, useTemp, useEquip, usePost, useLevel, aLevel, true);
+		return getStatToken(tokenDTO, true);
 	}
 
-	private static String getStatToken(PlayerCharacter pc, PCStat stat, boolean useTemp, boolean useEquip,
-	                                   boolean usePost, boolean useLevel, int aLevel, final boolean checkGameMode)
+	private static String getStatToken(StatTokenDTO tokenDTO, final boolean checkGameMode)
 	{
+		PlayerCharacter pc = tokenDTO.getPlayerCharacter();
+		PCStat stat = tokenDTO.getStat();
+		boolean useTemp = tokenDTO.isUseTemp();
+		boolean useEquip = tokenDTO.isUseEquip();
+		boolean usePost = tokenDTO.isUsePost();
+		boolean useLevel = tokenDTO.isUseLevel();
+		int aLevel = tokenDTO.getaLevel();
+
 		if (pc.getDisplay().isNonAbility(stat))
 		{
 			return "*";
@@ -233,16 +242,15 @@ public class StatToken extends Token
 		return Integer.toString(aTotal);
 	}
 
-	private static String getModToken(PlayerCharacter pc, PCStat stat, boolean useTemp, boolean useEquip,
-	                                  boolean usePost, boolean useLevel, int aLevel)
+	private static String getModToken(StatTokenDTO statTokenDTO)
 	{
-		if (pc.getDisplay().isNonAbility(stat))
+		if (statTokenDTO.getPlayerCharacter().getDisplay().isNonAbility(statTokenDTO.getStat()))
 		{
 			return "+0";
 		}
-		int aTotal = Integer.parseInt(getStatToken(pc, stat, useTemp, useEquip, usePost, useLevel, aLevel, false));
+		int aTotal = Integer.parseInt(getStatToken(statTokenDTO, false));
 
-		int temp = pc.getModForNumber(aTotal, stat);
+		int temp = statTokenDTO.getPlayerCharacter().getModForNumber(aTotal, statTokenDTO.getStat());
 		return Delta.toString(temp);
 	}
 
