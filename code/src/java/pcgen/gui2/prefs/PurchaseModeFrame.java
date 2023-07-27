@@ -229,12 +229,12 @@ public final class PurchaseModeFrame extends JDialog
 		});
 		jPanel1.add(purchaseScoreMinEdit);
 
-		AbstractButton purchaseScoreMinIncreaseButton = new JButton();
-		purchaseScoreMinIncreaseButton.setText(LanguageBundle.getString("in_Prefs_plus")); //$NON-NLS-1$
-		purchaseScoreMinIncreaseButton.setToolTipText(LanguageBundle.getString("in_Prefs_incMin")); //$NON-NLS-1$
-		purchaseScoreMinIncreaseButton.addActionListener(evt -> purchaseScoreMinIncreaseButtonActionPerformed());
+		AbstractButton minIncreaseButton = new JButton();
+		minIncreaseButton.setText(LanguageBundle.getString("in_Prefs_plus")); //$NON-NLS-1$
+		minIncreaseButton.setToolTipText(LanguageBundle.getString("in_Prefs_incMin")); //$NON-NLS-1$
+		minIncreaseButton.addActionListener(evt -> purchaseScoreMinIncreaseButtonActionPerformed());
 
-		jPanel1.add(purchaseScoreMinIncreaseButton);
+		jPanel1.add(minIncreaseButton);
 
 		AbstractButton purchaseScoreMinDecreaseButton = new JButton();
 		purchaseScoreMinDecreaseButton.setText(LanguageBundle.getString("in_Prefs_minus")); //$NON-NLS-1$
