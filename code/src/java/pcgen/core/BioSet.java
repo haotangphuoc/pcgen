@@ -116,24 +116,23 @@ public final class BioSet extends PObject implements NonInteractive
 	 * @param tag The tag to be entered. Must be in the form key:value
 	 * @param ageSetIndex The age set to be updated.
 	 */
-	public void addToUserMap(Optional<Region> region, final String race, final String tag, final int ageSetIndex)
-	{
+	public void addToUserMap(Optional<Region> region, final String race, final String tag, final int ageSetIndex) {
 		final int x = tag.indexOf(':');
 
-		if (x < 0)
-		{
+		if (x < 0) {
 			Logging.errorPrint("Invalid value sent to map: " + tag + " (for Race " + race + ")");
-
 			return; // invalid tag
 		}
-
 		String key = tag.substring(0, x);
-		List<String> r = userMap.getListFor(region, race, key);
-		for (int i = (r == null) ? 0 : r.size(); i < ageSetIndex; i++)
-		{
+		updateUserMap(region, race, key, tag.substring(x + 1), ageSetIndex);
+	}
+
+	private void updateUserMap(Optional<Region> region, String race, String key, String value, int ageSetIndex) {
+		List<String> valuesList = userMap.getListFor(region, race, key);
+		for (int i = (valuesList == null) ? 0 : valuesList.size(); i < ageSetIndex; i++) {
 			userMap.addToListFor(region, race, key, "0");
 		}
-		userMap.addToListFor(region, race, key, tag.substring(x + 1));
+		userMap.addToListFor(region, race, key, value);
 	}
 
 	/**
