@@ -17,6 +17,8 @@
  */
 package pcgen.core;
 
+import java.util.Objects;
+
 /**
  * The Class {@code ChronicleEntry} contains a record of an
  * event in the character's history.
@@ -185,89 +187,14 @@ public class ChronicleEntry implements Cloneable
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (this == obj)
-		{
+		//Check for memory address
+		if (this == obj) {
 			return true;
 		}
-		if (obj == null)
-		{
-			return false;
-		}
-		if (getClass() != obj.getClass())
-		{
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
 		ChronicleEntry other = (ChronicleEntry) obj;
-		if (adventure == null)
-		{
-			if (other.adventure != null)
-			{
-				return false;
-			}
-		}
-		else if (!adventure.equals(other.adventure))
-		{
-			return false;
-		}
-		if (campaign == null)
-		{
-			if (other.campaign != null)
-			{
-				return false;
-			}
-		}
-		else if (!campaign.equals(other.campaign))
-		{
-			return false;
-		}
-		if (chronicle == null)
-		{
-			if (other.chronicle != null)
-			{
-				return false;
-			}
-		}
-		else if (!chronicle.equals(other.chronicle))
-		{
-			return false;
-		}
-		if (date == null)
-		{
-			if (other.date != null)
-			{
-				return false;
-			}
-		}
-		else if (!date.equals(other.date))
-		{
-			return false;
-		}
-		if (gmField == null)
-		{
-			if (other.gmField != null)
-			{
-				return false;
-			}
-		}
-		else if (!gmField.equals(other.gmField))
-		{
-			return false;
-		}
-		if (outputEntry != other.outputEntry)
-		{
-			return false;
-		}
-		if (party == null)
-		{
-			if (other.party != null)
-			{
-				return false;
-			}
-		}
-		else if (!party.equals(other.party))
-		{
-			return false;
-		}
-		return xpField == other.xpField;
+		return Objects.equals(this, other);
 	}
 }
